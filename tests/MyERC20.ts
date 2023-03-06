@@ -2,16 +2,14 @@ import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
 import { expect } from "chai";
 import { Contract } from "ethers";
 import { ethers } from "hardhat";
-import { MyERC20Token } from "../typechain-types";
 
 describe("Basic tests for understanding ERC20", async () => {
   let myTokenContract: Contract;
   let signers: SignerWithAddress[] | { address: any }[];
+
   beforeEach(async () => {
     signers = await ethers.getSigners();
-    const myTokenContractFactory = await ethers.getContractFactory(
-      "MyERC20Token"
-    );
+    const myTokenContractFactory = await ethers.getContractFactory("MyERC20");
     myTokenContract = await myTokenContractFactory.deploy();
     await myTokenContract.deployTransaction.wait();
 
@@ -19,7 +17,7 @@ describe("Basic tests for understanding ERC20", async () => {
     await mintTx.wait();
   });
 
-  it("should have zero total supply at  deployment", async () => {
+  it("should have zero total supply at deployment", async () => {
     const totalSupply = await myTokenContract.totalSupply();
     expect(totalSupply).to.eq(0);
   });
